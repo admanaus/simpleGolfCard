@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/custom.css">
+</head>
+<body>
+<!--Top Menu-->
+<div class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Golf Score Card</a>
+        </div>
+        <div class="nav navbar-nav" id="topNavBar">
+            <!--Nearby courses drop-down button-->
+            <li class="active">
+                <!--Finding Location Element-->
+                <div class="row" id="findingLocation">
+                    <p>Finding your location...</p>
+                </div>
+
+                <div class="dropdown" id="nearbyCoursesButton" style="padding: 15px 15px">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Select Nearby Course <span class="caret"></span>
+                    </button>
+                    <div class="dropdown-menu" id="coursesDropdown" aria-labelledby="dropdownMenuButton">
+                        <!--Nearby Courses will go here-->
+                    </div>
+                </div>
+            </li>
+            <!--Available Tees drop-down button-->
+            <li class="active">
+
+                <div class="dropdown" id="availableTeesButton" style="padding: 15px 15px">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Select Tee Type <span class="caret"></span>
+                    </button>
+                    <div class="dropdown-menu" id="teesDropdown" aria-labelledby="dropdownMenuButton">
+                        <!--Available Tees will go here-->
+                    </div>
+                </div>
+            </li>
+        </div>
+    </div>
+</div>
+<!--End top menu-->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfZrgZnLbylDkqBfdx35fy5y7Odl8cIUY"
+        type="text/javascript">
+</script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/golfCard.js"></script>
+</body>
+</html>

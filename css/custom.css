@@ -1,0 +1,43 @@
+h4 {
+    margin-top: 25px;
+}
+.row {
+    margin-bottom: 20px;
+}
+.row .row {
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+[class*="col-"] {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background-color: #eee;
+    background-color: lightgreen;
+    border: 1px solid green;
+    border: 1px solid green;
+}
+
+hr {
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.well {
+    margin-bottom: 0px;
+}
+
+.dropdown-item {
+    cursor: pointer;
+}
+
+.map {
+    height: 250px;
+}
+
+.small-icon {
+    max-height: 40px;
+}
+
+#findingLocation{
+    padding-left: 30px;
+}
