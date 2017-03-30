@@ -63,14 +63,16 @@ function createCoursesMenu(courses){
     //delete loading icon
     $('#findingLocation').remove();
     //populate dropdown
-    courses.courses.forEach(function(hole){
-        $('#coursesDropdown').append("<li><a class='dropdown-item' value='" + hole.id + "' onclick='getSelectedCourse(" + hole.id + ")' >" + hole.name + "</a></li>")
+    courses.courses.forEach(function(course){
+        $('#coursesDropdown').append("<li><a class='dropdown-item' onclick='getSelectedCourse("+course.id+")'>" + course.name + "</a></li>")
     });
     $('#nearbyCoursesButton').show();
 
 }
 
 function getSelectedCourse(courseID){
+
+
     return new Promise(execute);
 
     function execute(resolve, reject){
@@ -78,6 +80,12 @@ function getSelectedCourse(courseID){
         httpRequest.onreadystatechange = function () {
             if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200){
                 selectedCourse = JSON.parse(httpRequest.responseText);
+                //empty courses menu
+                $('#courseDropdownMenuButton').empty();
+                $('#courseDropdownMenuButton').append(selectedCourse.course.name + " <span class='caret'></span>");
+                //reset tee menu if a different course is selected
+                $('#teesDropdownMenuButton').empty();
+                $('#teesDropdownMenuButton').append("Select Tee Type <span class='caret'></span>");
                 createTeeMenu(selectedCourse);
                 resolve(selectedCourse);
             }
@@ -89,13 +97,27 @@ function getSelectedCourse(courseID){
 
 function createTeeMenu(selectedCourse){
     console.log(selectedCourse);
-    selectedCourse.course.holes[0].tee_boxes.forEach(function(tee){
-        $('#teesDropdown').append("<li><a class='dropdown-item' value='" + tee.tee_type + "' onclick='genrateCardYardage(" + tee + ")' >" + tee.tee_type + "</a></li>");
+    //clear tee menu
+    $('#teesDropdown').empty();
+    //populate tee menu
+    var teeBoxesArray = selectedCourse.course.holes[0].tee_boxes;
+    teeBoxesArray.forEach(function(tee, index){
+        if(index < teeBoxesArray.length - 1){ //ignore the last element in the array
+            $('#teesDropdown').append("<li><a class='dropdown-item' onclick='chosenTee(" + index + ")' >" + tee.tee_type + "</a></li>");
+        }
+
     });
     $('#availableTeesButton').show();
     //onclick generateCard(selectedCourse, teeSelection, playersArray)
 }
+function chosenTee(teeIndex){
+    var teeName = selectedCourse.course.holes[0].tee_boxes[teeIndex].tee_type;
 
+    //clear tee menu name
+    $('#teesDropdownMenuButton').empty();
+    $('#teesDropdownMenuButton').append(teeName + " <span class='caret'></span>");
+    //populate yardage to card
+}
 function createHoleMenu(courseObject){
     //check to see the number of holes on course
     //populate menu
