@@ -41,3 +41,8 @@ hr {
 #findingLocation{
     padding-left: 30px;
 }
+
+#courseName{
+    font-family: 'Lobster', cursive;
+    font-size: 26px;
+}

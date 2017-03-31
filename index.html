@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <!--Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+    <!--CSS-->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/custom.css">
 </head>
@@ -42,10 +45,71 @@
                     </div>
                 </div>
             </li>
+            <!--Available Holes drop-down button-->
+            <li class="active">
+                <div class="dropdown" id="availableHolesButton" style="padding: 15px 15px">
+                    <button id="holesDropdownMenuButton" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                    <div class="dropdown-menu" id="holesDropdown" aria-labelledby="dropdownMenuButton">
+                        <!--Available Holes will go here-->
+                    </div>
+                </div>
+            </li>
         </div>
     </div>
 </div>
 <!--End top menu-->
+
+<!--Begin Course Info and Weather-->
+<div class="container" id="courseInfo">
+    <div class="row"  id="welcome">
+        <div class="col-md-12" id="courseName"></div>
+        <div class="col-md-12" id="weatherDescription"></div>
+        <div class="col-md-12 map" id="courseMap"></div>
+        <!--<div class="col-md-4 map" id="courseMap"></div>-->
+    </div>
+</div>
+<!--End Course Info and Weather-->
+
+<!--Begin Score Card-->
+<div class="container" id="scoreCard">
+    <div id="front9">
+        <div class="row">
+            <div class="col-md-4" id="hole1">Hole 1</div>
+            <div class="col-md-4" id="hole2">Hole 2</div>
+            <div class="col-md-4" id="hole3">Hole 3</div>
+        </div>
+        <div class="row">
+            <div class="col-md-4" id="hole4">Hole 4</div>
+            <div class="col-md-4" id="hole5">Hole 5</div>
+            <div class="col-md-4" id="hole6">Hole 6</div>
+        </div>
+        <div class="row">
+            <div class="col-md-4" id="hole7">Hole 7</div>
+            <div class="col-md-4" id="hole8">Hole 8</div>
+            <div class="col-md-4" id="hole9">Hole 9</div>
+        </div>
+    </div>
+    <div id="back9">
+        <div class="row">
+            <div class="col-md-4" id="hole10">Hole 10</div>
+            <div class="col-md-4" id="hole11">Hole 11</div>
+            <div class="col-md-4" id="hole12">Hole 12</div>
+        </div>
+        <div class="row">
+            <div class="col-md-4" id="hole13">Hole 13</div>
+            <div class="col-md-4" id="hole14">Hole 14</div>
+            <div class="col-md-4" id="hole15">Hole 15</div>
+        </div>
+        <div class="row">
+            <div class="col-md-4" id="hole16">Hole 16</div>
+            <div class="col-md-4" id="hole17">Hole 17</div>
+            <div class="col-md-4" id="hole18">Hole 18</div>
+        </div>
+    </div>
+</div>
+<!--End Score Card-->
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
