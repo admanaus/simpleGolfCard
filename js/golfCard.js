@@ -149,6 +149,7 @@ function createHoleMenu(selectedCourse){
 }
 function chosenHole(selection){
     // if(selection !== 0 || 1 || 2){selection = 0};
+    holesSelection = selection; // pass value out to global variable
     if(selection == 0){
         console.log("18 Holes");
         $('#holesDropdownMenuButton').empty();
@@ -162,6 +163,7 @@ function chosenHole(selection){
         $('#holesDropdownMenuButton').empty();
         $('#holesDropdownMenuButton').append("Back 9 <span class='caret'></span>");
     }
+    generateCard();
 }
 function showCourseInfo(selectedCourse){
     var name = selectedCourse.course.name;
@@ -172,7 +174,7 @@ function showCourseInfo(selectedCourse){
     $('#courseName').empty();
     $('#courseName').append(name);
 
-    generateMap(latitude, longitude, "courseMap");
+    generateCourseMap(latitude, longitude, "courseMap");
 
     getWeather(zipcode).then(function (weather){
         var description = weather.weather[0].description;
@@ -184,7 +186,7 @@ function showCourseInfo(selectedCourse){
     $('#courseInfo').show();
 }
 
-function generateMap(latitude, longitude, HTMLID){
+function generateCourseMap(latitude, longitude, HTMLID){
     var map = new google.maps.Map(document.getElementById(HTMLID), {
         zoom: 14,
         center: {lat: latitude, lng: longitude},
@@ -194,6 +196,35 @@ function generateMap(latitude, longitude, HTMLID){
         position: {lat: latitude, lng: longitude},
         map: map
     });
+}
+
+function generateHoleMap(hole) {
+
+    return new Promise(execute);
+
+    function execute(resolve, reject) {
+        var teeLocation = selectedCourse.course.holes[hole - 1].tee_boxes[teeSelection].location;
+        var greenLocation = selectedCourse.course.holes[hole - 1].green_location;
+        var holeCenter = {lat:((teeLocation.lat + greenLocation.lat) / 2) , lng:((teeLocation.lng + greenLocation.lng) /2)};
+        var HTMLID = "map" + hole;
+
+        var map = new google.maps.Map(document.getElementById(HTMLID), {
+            zoom: 15,
+            center: {lat: holeCenter.lat, lng: holeCenter.lng},
+            mapTypeId: 'satellite'
+        });
+        var tee = new google.maps.Marker({
+            position: {lat: teeLocation.lat, lng: teeLocation.lng},
+            map: map,
+            label: "tee"
+        });
+        var green = new google.maps.Marker({
+            position: {lat: greenLocation.lat, lng: greenLocation.lng},
+            map: map,
+            label: "green"
+        });
+        resolve();
+    }
 }
 
 function getWeather(zipcode){
@@ -218,7 +249,37 @@ function addPlayer(){
     //push players array to local data
 }
 
-function generateCard(selectedCourse, teeSelection, players){
+function generateCard(){
+    var teeName = selectedCourse.course.holes[0].tee_boxes[teeSelection].tee_type;
+
+    $('#scoreCard').show();
+    for (var i = 1; i < 19; i++) {
+
+        var yards = selectedCourse.course.holes[i - 1].tee_boxes[teeSelection].yards;
+
+        var HTMLID = "map" + i;
+        $('#hole' + i).empty();
+        // $('#hole' + i).append("<div class='map' id='"+ HTMLID +"' ></div>");
+        // $('#hole' + i).append("<div><a onclick='showHoleMap("+i+")' >Show Map</a></div>");
+        $('#hole' + i).append("<div class='col-md-12 map' id='"+ HTMLID +"' ></div>");
+        $('#hole' + i).append("<div class='col-md-4 hole' id='hole"+ i +"' > <div class='well'>Hole: "+ i +" </div>");
+        $('#hole' + i).append("<div class='col-md-4 tee' id='tee' > <div class='well'>Tee: "+ teeName +" </div>");
+        $('#hole' + i).append("<div class='col-md-4 yards' id='yards' > <div class='well'>Yards: "+ yards +" </div>");
+
+        // $("#" + HTMLID).hide();
+        generateHoleMap(i);
+    }
+
+}
+
+function showHoleMap(hole) {
+    var ID = "#map" + hole;
+
+    $(ID).show();
+    generateHoleMap(hole);
+}
+
+function generateIndividualHole(hole, selectedCourse, teeSelection, holesSelection, players){
 
 
     //create card for each hole
