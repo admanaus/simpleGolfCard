@@ -259,14 +259,10 @@ function generateCard(){
 
         var HTMLID = "map" + i;
         $('#hole' + i).empty();
-        // $('#hole' + i).append("<div class='map' id='"+ HTMLID +"' ></div>");
-        // $('#hole' + i).append("<div><a onclick='showHoleMap("+i+")' >Show Map</a></div>");
         $('#hole' + i).append("<div class='col-md-12 map' id='"+ HTMLID +"' ></div>");
         $('#hole' + i).append("<div class='col-md-4 hole' id='hole"+ i +"' > <div class='well'>Hole: "+ i +" </div>");
         $('#hole' + i).append("<div class='col-md-4 tee' id='tee' > <div class='well'>Tee: "+ teeName +" </div>");
         $('#hole' + i).append("<div class='col-md-4 yards' id='yards' > <div class='well'>Yards: "+ yards +" </div>");
-
-        // $("#" + HTMLID).hide();
         generateHoleMap(i);
     }
 
@@ -277,18 +273,6 @@ function showHoleMap(hole) {
 
     $(ID).show();
     generateHoleMap(hole);
-}
-
-function generateIndividualHole(hole, selectedCourse, teeSelection, holesSelection, players){
-
-
-    //create card for each hole
-        //hole title - "Hole 1"
-        //par display
-        //Tee: yards
-        //map
-        //enter score each player
-            //onclick (or whatever) update players array, push to local data
 }
 
 function updateScore(currentHole, player, score){

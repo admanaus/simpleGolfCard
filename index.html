@@ -24,7 +24,7 @@
                     <p style="padding-top: 15px">Finding your location...</p>
                 </div>
                 <!--Nearby Courses Button-->
-                <li class="dropdown" id="nearbyCoursesButton" style="padding: 15px 15px">
+                <li class="dropdown topMenu" id="nearbyCoursesButton">
                     <a id="courseDropdownMenuButton" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Select Nearby Course <span class="caret"></span>
                     </a>
@@ -35,24 +35,23 @@
             </li>
             <!--Available Tees drop-down button-->
             <li class="active">
-
-                <div class="dropdown" id="availableTeesButton" style="padding: 15px 15px">
-                    <button id="teesDropdownMenuButton" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <li class="dropdown topMenu" id="availableTeesButton" >
+                    <a id="teesDropdownMenuButton" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Select Tee Type <span class="caret"></span>
-                    </button>
+                    </a>
                     <div class="dropdown-menu" id="teesDropdown" aria-labelledby="dropdownMenuButton">
                         <!--Available Tees will go here-->
                     </div>
-                </div>
+                </li>
             </li>
             <!--Available Holes drop-down button-->
             <li class="active">
-                <div class="dropdown" id="availableHolesButton" style="padding: 15px 15px">
-                    <button id="holesDropdownMenuButton" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                <li class="dropdown" id="availableHolesButton">
+                    <a id="holesDropdownMenuButton" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
                     <div class="dropdown-menu" id="holesDropdown" aria-labelledby="dropdownMenuButton">
                         <!--Available Holes will go here-->
                     </div>
-                </div>
+                </li>
             </li>
         </div>
     </div>
