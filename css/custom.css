@@ -12,9 +12,9 @@ h4 {
     padding-top: 15px;
     padding-bottom: 15px;
     background-color: #eee;
-    background-color: lightgreen;
-    border: 1px solid green;
-    border: 1px solid green;
+    /*background-color: #c2f0c2;*/
+    /*border: 1px solid green;*/
+    /*border: 1px solid green;*/
 }
 
 hr {
@@ -31,7 +31,7 @@ hr {
 }
 
 .map {
-    height: 250px;
+    height: 300px;
 }
 
 .small-icon {
@@ -41,13 +41,15 @@ hr {
 #findingLocation{
     padding-left: 30px;
 }
+#courseInfo{
 
+}
 #courseName{
     font-family: 'Lobster', cursive;
     font-size: 26px;
 }
 .card{
-
+    margin-bottom: 8px;
 }
 
 .topMenu{

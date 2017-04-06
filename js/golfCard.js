@@ -7,10 +7,15 @@ var players = [ {name: "player 1", score: [] }, {name: "player 2", score: [] } ]
 $('#nearbyCoursesButton').hide();
 $('#availableTeesButton').hide();
 $('#courseInfo').hide();
-$('#scoreCard').hide();
+// $('#scoreCard').hide();
 $('#availableHolesButton').hide();
 
-getUserLocation().then(getNearbyCourses).then(createCoursesMenu);
+//!!!!! Change this back!
+
+getNearbyCourses().then(createCoursesMenu);
+
+// getUserLocation().then(getNearbyCourses).then(createCoursesMenu);
+//!!!!!!!
 
 
 function getUserLocation(){
@@ -30,10 +35,18 @@ function getUserLocation(){
         }
     }
 }
-
 function getNearbyCourses(userPosition){
-    var latitude = userPosition.coords.latitude;
-    var longitude = userPosition.coords.longitude;
+
+    /////////!!!!!!  Change this!!
+    var latitude = 40.1645914;
+    var longitude = -111.6477293;
+
+    // var latitude = userPosition.coords.latitude;
+    // var longitude = userPosition.coords.longitude;
+
+    ///!!!!!!!!
+
+
     var radius = 50; //in kilometers
     //get nearby courses object
     return new Promise(execute);
@@ -61,7 +74,6 @@ function getNearbyCourses(userPosition){
         httpRequest.send(JSON.stringify(body));
     }
 }
-
 function createCoursesMenu(courses){
     //delete loading icon
     $('#findingLocation').remove();
@@ -71,7 +83,6 @@ function createCoursesMenu(courses){
     });
     $('#nearbyCoursesButton').show();
 }
-
 function getSelectedCourse(courseID){
 
     return new Promise(execute);
@@ -99,7 +110,6 @@ function getSelectedCourse(courseID){
         httpRequest.send();
     }
 }
-
 function createTeeMenu(selectedCourse){
     console.log(selectedCourse);
     //clear tee menu
@@ -209,7 +219,7 @@ function generateHoleMap(hole) {
         var HTMLID = "map" + hole;
 
         var map = new google.maps.Map(document.getElementById(HTMLID), {
-            zoom: 15,
+            zoom: 16,
             center: {lat: holeCenter.lat, lng: holeCenter.lng},
             mapTypeId: 'satellite'
         });
@@ -251,19 +261,54 @@ function addPlayer(){
 
 function generateCard(){
     var teeName = selectedCourse.course.holes[0].tee_boxes[teeSelection].tee_type;
-
+    cardHTMLSkeleton();
     $('#scoreCard').show();
     for (var i = 1; i < 19; i++) {
 
         var yards = selectedCourse.course.holes[i - 1].tee_boxes[teeSelection].yards;
 
         var HTMLID = "map" + i;
-        $('#hole' + i).empty();
-        $('#hole' + i).append("<div class='col-md-12 map' id='"+ HTMLID +"' ></div>");
-        $('#hole' + i).append("<div class='col-md-4 hole' id='hole"+ i +"' > <div class='well'>Hole: "+ i +" </div>");
-        $('#hole' + i).append("<div class='col-md-4 tee' id='tee' > <div class='well'>Tee: "+ teeName +" </div>");
-        $('#hole' + i).append("<div class='col-md-4 yards' id='yards' > <div class='well'>Yards: "+ yards +" </div>");
+
+        // $('#hole' + i).append("<div class='row' id='holeAndTee"+i+"'></div>");
+        // $('#holeAndTee' + i).append("<div class='well hole' id='hole"+ i +"' > Hole: "+ i +" </div>");
+        // $('#holeAndTee' + i).append("<div class='well tee' id='tee' >Tee: "+ teeName +" </div>");
+        $('#hole' + i).append("<div class='col-md-4 map' id='"+ HTMLID +"' ></div>");
+        // $('#hole' + i).append("<div class='col-md-4 hole' id='hole"+ i +"' > <div class='well'>Hole: "+ i +" </div>");
+        // $('#hole' + i).append("<div class='col-md-4 tee' id='tee' > <div class='well'>Tee: "+ teeName +" </div>");
+        // $('#hole' + i).append("<div class='col-md-4 yards' id='yards' > <div class='well'>Yards: "+ yards +" </div></div>");
         generateHoleMap(i);
+    }
+
+}
+
+function cardHTMLSkeleton(){
+
+    $('#scoreCard').empty();
+    $('#scoreCard').append("<div id='front9'></div>");
+    $('#scoreCard').append("<div id='back9'></div>");
+
+    if (holesSelection == 1){
+        frontNine();
+    } else if (holesSelection == 2){
+        backNine();
+    } else {
+        frontNine();
+        backNine();
+    }
+
+    function frontNine(){
+        for (var i = 1; i < 10; i++) {
+            var yards = selectedCourse.course.holes[i - 1].tee_boxes[teeSelection].yards;
+            var par = (selectedCourse.course.holes[i - 1].tee_boxes[teeSelection].par);
+            $('#front9').append("<div class='row card'><div class='col-md-4' id='hole"+i+"'><div class='text-center'><h2>Hole "+i+"</h2></div><div class='row'><div class='text-center col-xs-6'><h3>Par</h3><h3>"+par+"</h3></div><div class='text-center col-xs-6'><h3>Yards</h3><h3>"+yards+"</h3></div></div></div></div>");
+        }
+    }
+    function backNine(){
+        for (var i = 10; i < 19; i++){
+            var yards = selectedCourse.course.holes[i - 1].tee_boxes[teeSelection].yards;
+            var par = (selectedCourse.course.holes[i - 1].tee_boxes[teeSelection].par);
+            $('#back9').append("<div class='row card'><div class='col-md-4' id='hole"+i+"'><div class='text-center'><h2>Hole "+i+"</h2></div><div class='row'><div class='text-center col-xs-6'><h3>Par</h3><h3>"+par+"</h3></div><div class='text-center col-xs-6'><h3>Yards</h3><h3>"+yards+"</h3></div></div></div></div>");
+        }
     }
 
 }
