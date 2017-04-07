@@ -4,7 +4,7 @@ var teeSelection = 0; //indicates tee position in tee array
 var holesSelection = 1; //must be 0 = 18 holes, 1 = front 9, 2 = back 9 !!Default should be 1!!
 var quantityPlayers = 1;
 var players = [];
-var scores = [];
+var scores = [[]];
 
 $('#nearbyCoursesButton').hide();
 $('#availableTeesButton').hide();
@@ -281,22 +281,38 @@ function savePlayerNames(){
     addPlayersToCards();
     $("#playerInfo").hide();
 }
+
+function Course(courseID){
+    this.courseID = courseID;
+    this.players = [];
+}
+function Player(name) {
+    this.name = name;
+    this.score = [];
+}
+
+
 function saveScores(){
-    players.forEach(function (name) {
-        var score = $("#"+name+"Hole1score").val();
-        console.log(score);
-        scores.push([name, score]);
+    var ID = selectedCourse.course.id;
+    var course = new Course(ID);
+    players.forEach(function (name, index) {
+        var player = new Player(name);
+        course.players.push(player);
+        for (var i = 1; i < 19; i++) {
+            var score = $("#"+name+"Hole"+i+"score").val();
+            player.score.push(score);
+        }
     });
-    console.log(scores);
+    console.log(course);
 }
 function addPlayersToCards(){
     if (players){
         for (var i = 1; i < 19; i++) {
-            $("#hole"+i).append(" <div class='row'> <div id='scoreNamesHole"+i+"'> </div> </div><div class='row'><div class=' ' id='saveButton'><button type='submit' class='btn btn-primary' onclick='saveScores()'>Save</button></div> </div> ");
+            $("#hole"+i).append(" <div class='row'> <div id='scoreNamesHole"+i+"'> </div> </div>");
         }
         for (var i = 1; i < 19; i++) {
             players.forEach(function (playerName) {
-                $("#scoreNamesHole" + i).append("<div class='col-xs-6 col-sm-6 col-md-6'><label for='"+playerName+"Hole"+i+"score'>"+playerName+"</label><input class='form-control' type='number' value='1' id='"+playerName+"Hole"+i+"score'></div>");
+                $("#scoreNamesHole" + i).append("<div class='col-xs-6 col-sm-6 col-md-6'><label for='"+playerName+"Hole"+i+"score'>"+playerName+"</label><input oninput='saveScores()' class='form-control "+playerName+"Score ' type='number' value='1' id='"+playerName+"Hole"+i+"score'></div>");
             })
         }
     }
