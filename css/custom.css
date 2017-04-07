@@ -1,25 +1,38 @@
-h4 {
-    margin-top: 25px;
+/*h4 {*/
+    /*margin-top: 25px;*/
 }
-.row {
-    margin-bottom: 20px;
+/*.row {*/
+    /*margin-bottom: 20px;*/
 }
 .row .row {
-    margin-top: 10px;
-    margin-bottom: 0;
+    /*margin-top: 10px;*/
+    /*margin-bottom: 0;*/
 }
 [class*="col-"] {
-    padding-top: 15px;
-    padding-bottom: 15px;
-    background-color: #eee;
+    /*padding-top: 15px;*/
+    /*padding-bottom: 15px;*/
+    /*background-color: #eee;*/
     /*background-color: #c2f0c2;*/
     /*border: 1px solid green;*/
     /*border: 1px solid green;*/
 }
+label {
+    padding-top: 10px;
+}
+
 
 hr {
     margin-top: 40px;
     margin-bottom: 40px;
+}
+#saveButton{
+    padding-top: 15px;
+}
+
+#courseMap{
+    padding-top: 20px;
+    height: 200px;
+    max-width: 80%;
 }
 
 .well {
@@ -31,7 +44,7 @@ hr {
 }
 
 .map {
-    height: 300px;
+    height: 400px;
 }
 
 .small-icon {
@@ -45,13 +58,23 @@ hr {
 
 }
 #courseName{
-    font-family: 'Lobster', cursive;
-    font-size: 26px;
+    font-family: 'Lobster Two', cursive;
+    font-size: 28px;
+}
+#weatherDescription{
+    font-family: 'Alegreya', serif;
+    font-size: 20px;
 }
 .card{
     margin-bottom: 8px;
+    font-family: 'Alegreya', serif;
+    font-size: 200%;
 }
 
 .topMenu{
     /*padding: 10px 10px;*/
+}
+.col-centered{
+    float: none;
+    margin: 0 auto;
 }
