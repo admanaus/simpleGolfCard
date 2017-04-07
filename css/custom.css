@@ -1,26 +1,18 @@
-/*h4 {*/
-    /*margin-top: 25px;*/
+.slow .toggle-group {
+    transition: left 0.7s;
+    -webkit-transition: left 0.7s;
 }
-/*.row {*/
-    /*margin-bottom: 20px;*/
-}
-.row .row {
-    /*margin-top: 10px;*/
-    /*margin-bottom: 0;*/
-}
-[class*="col-"] {
-    /*padding-top: 15px;*/
-    /*padding-bottom: 15px;*/
-    /*background-color: #eee;*/
-    /*background-color: #c2f0c2;*/
-    /*border: 1px solid green;*/
-    /*border: 1px solid green;*/
-}
+
 label {
     padding-top: 10px;
 }
 
-
+#mapsToggle{
+    padding: 15px;
+}
+#mapsToggle label {
+    padding: 10px;
+}
 hr {
     margin-top: 40px;
     margin-bottom: 40px;
@@ -45,6 +37,13 @@ hr {
 
 .map {
     height: 370px;
+    margin-top: 15px;
+}
+.card h3 {
+    margin-top: 10px;
+}
+.card h2{
+    margin-top: 10px;
 }
 
 .small-icon {
@@ -69,6 +68,20 @@ hr {
     margin-bottom: 8px;
     font-family: 'Alegreya', serif;
     font-size: 200%;
+    border-width: 3px;
+    border-style: solid;
+    margin-top: 20px;
+    font-size: 15px;
+    padding: 25px;
+    border-radius: 25px;
+    border-color: #4CAF50
+}
+.parYards {
+    border-width: 3px;
+    border-style: solid;
+    border-radius: 50px;
+    border-color: #4CAF50;
+
 }
 
 .topMenu{
