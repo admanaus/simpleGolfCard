@@ -43,7 +43,6 @@ function loadGame(gameID){
     buildSummary();
 }
 
-getNearbyCourses().then(createCoursesMenu);
 getUserLocation().then(getNearbyCourses).then(createCoursesMenu);
 
 function getUserLocation(){
@@ -68,9 +67,6 @@ function getNearbyCourses(userPosition){
 
     var latitude = userPosition.coords.latitude;
     var longitude = userPosition.coords.longitude;
-
-
-
 
     var radius = 50; //in kilometers
     //get nearby courses object
@@ -110,7 +106,6 @@ function createCoursesMenu(courses){
 function getSelectedCourse(courseID){
 
     $("#scoreCard").empty();
-    $("#summary").empty();
     return new Promise(execute);
 
     function execute(resolve, reject){

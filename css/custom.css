@@ -24,7 +24,8 @@ hr {
 #courseMap{
     padding-top: 20px;
     height: 200px;
-    max-width: 80%;
+}
+#summary{
 }
 
 .well {
@@ -52,6 +53,7 @@ hr {
 
 #findingLocation{
     padding-left: 30px;
+    padding-right: 30px;
 }
 #courseInfo{
 
