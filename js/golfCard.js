@@ -42,10 +42,10 @@ function loadGame(gameID){
     addSavedPlayersToCards();
     buildSummary();
 }
-//!!!!! Change this back!
+
 getNearbyCourses().then(createCoursesMenu);
-// getUserLocation().then(getNearbyCourses).then(createCoursesMenu);
-//!!!!!!!
+getUserLocation().then(getNearbyCourses).then(createCoursesMenu);
+
 function getUserLocation(){
     return new Promise(executor);
     function executor(resolve, reject){
@@ -65,14 +65,11 @@ function getUserLocation(){
 }
 function getNearbyCourses(userPosition){
 
-    /////////!!!!!!  Change this!!
-    var latitude = 40.1645914;
-    var longitude = -111.6477293;
 
-    // var latitude = userPosition.coords.latitude;
-    // var longitude = userPosition.coords.longitude;
+    var latitude = userPosition.coords.latitude;
+    var longitude = userPosition.coords.longitude;
 
-    ///!!!!!!!!
+
 
 
     var radius = 50; //in kilometers
@@ -113,6 +110,7 @@ function createCoursesMenu(courses){
 function getSelectedCourse(courseID){
 
     $("#scoreCard").empty();
+    $("#summary").empty();
     return new Promise(execute);
 
     function execute(resolve, reject){
