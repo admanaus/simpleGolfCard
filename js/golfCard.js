@@ -215,6 +215,7 @@ function showCourseInfo(selectedCourse){
     $('#courseInfo').show();
 }
 function generateCourseMap(latitude, longitude, HTMLID){
+    $("#courseMap").show();
     var map = new google.maps.Map(document.getElementById(HTMLID), {
         zoom: 14,
         center: {lat: latitude, lng: longitude},
@@ -407,6 +408,7 @@ function cardHTMLSkeleton(){
 
 }
 function buildSummary() {
+    $("#courseMap").hide();
     summaryHTMLSkeleton();
     summaryInfo();
 }
@@ -453,6 +455,10 @@ function summaryInfo(){
         $("#summaryBody").append("<tr class='info'><td>"+name+"</td><td>"+front9+"</td><td>"+back9+"</td><td>"+all18+"</td></tr>");
     });
 
+}
+function insertMapsToggle(){
+    $("#mapsToggle").append("<li><a><input type='checkbox' checked data-toggle='toggle' data-style='slow'  data-on='Maps' data-off='Maps' onchange='hideMaps()'></a></li>");
+    // Toggle JS needs to be called after insertion for correct display...
 }
 
 
