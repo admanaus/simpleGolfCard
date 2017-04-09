@@ -4,11 +4,19 @@ var teeSelection = 0; //indicates tee position in tee array
 var holesSelection = 1; //must be 0 = 18 holes, 1 = front 9, 2 = back 9 !!Default should be 1!!
 var quantityPlayers = 1;
 var players = [];
-var playerCount = 1;
-var selectedCoursePlayerData;
 var currentGame = {};
 
-
+function Game(gameID) {
+    this.gameID = gameID;
+    this.course = {};
+    this.players = [];
+    this.tee = teeSelection;
+    this.holes = holesSelection;
+}
+function Player(name) {
+    this.name = name;
+    this.score = [0];
+}
 
 $('#nearbyCoursesButton').hide();
 $('#availableTeesButton').hide();
@@ -19,16 +27,13 @@ function createSavedGamesMenu(){
     //clear tee menu
     $('#gamesDropdown').empty();
     for (var i = 0; i <= 100000; i++) {
-
         if (db.get(i)) {
             currentGame = db.get(i);
             var tempName = currentGame.course.course.name;
             var tempPlayerNames = "";
             currentGame.players.forEach(function (player) { tempPlayerNames = tempPlayerNames + player.name + " "; });
-
             $('#gamesDropdown').append("<li><a class='dropdown-item' onclick='loadGame(" + i + ")' >" + tempName + " ("+tempPlayerNames+")</a></li>");
         }
-
     }
 }
 createSavedGamesMenu();
@@ -56,18 +61,14 @@ function getUserLocation(){
                 function(error){
                     reject(error);
                 });
-
         } else {
             reject({message: 'no geolocation avalible'});
         }
     }
 }
 function getNearbyCourses(userPosition){
-
-
     var latitude = userPosition.coords.latitude;
     var longitude = userPosition.coords.longitude;
-
     var radius = 50; //in kilometers
     //get nearby courses object
     return new Promise(execute);
@@ -90,7 +91,6 @@ function getNearbyCourses(userPosition){
             "longitude": longitude,
             "radius": radius
         };
-
         httpRequest.send(JSON.stringify(body));
     }
 }
@@ -104,7 +104,7 @@ function createCoursesMenu(courses){
     $('#nearbyCoursesButton').show();
 }
 function getSelectedCourse(courseID){
-
+    $("#summary").empty();
     $("#scoreCard").empty();
     return new Promise(execute);
 
@@ -225,7 +225,6 @@ function generateCourseMap(latitude, longitude, HTMLID){
         map: map
     });
 }
-
 function generateHoleMap(hole) {
 
     return new Promise(execute);
@@ -258,7 +257,6 @@ function generateHoleMap(hole) {
     }
 }
 function hideMaps(){ $(".map").toggle() }
-
 function getWeather(zipcode){
     return new Promise(execute);
 
@@ -274,7 +272,6 @@ function getWeather(zipcode){
         xhttp.send();
     }
 }
-
 function addPlayer(){
     quantityPlayers++;
 
@@ -301,17 +298,6 @@ function savePlayerNames(){
     }
 
 }
-function Game(gameID) {
-    this.gameID = gameID;
-    this.course = {};
-    this.players = [];
-    this.tee = teeSelection;
-    this.holes = holesSelection;
-}
-function Player(name) {
-    this.name = name;
-    this.score = [0];
-}
 function generateCurrentGame(){
     var gameID = Math.floor(Math.random() * 100000);
     currentGame = new Game(gameID);
@@ -333,7 +319,6 @@ function saveScores(){
     db.save(currentGame.gameID , currentGame);
     buildSummary();
 }
-
 function addPlayersToCards(){
     if (players){
         for (var i = 1; i < 19; i++) {
@@ -365,7 +350,6 @@ function removePlayer(player){
     $("#"+player).prev().remove();
     $("#"+player).remove();
 }
-
 function generateCard(){
     cardHTMLSkeleton();
     $('#scoreCard').show();
@@ -391,7 +375,6 @@ function generateCard(){
 
 
 }
-
 function cardHTMLSkeleton(){
 
     $('#scoreCard').empty();
@@ -411,14 +394,14 @@ function cardHTMLSkeleton(){
         for (var i = 1; i < 10; i++) {
             var yards = selectedCourse.course.holes[i - 1].tee_boxes[teeSelection].yards;
             var par = (selectedCourse.course.holes[i - 1].tee_boxes[teeSelection].par);
-            $('#front9').append("<div class='col-sm-6 col-md-4 col-lg-3 card' id='hole"+i+"'><h2>"+i+"</h2><div class='row'><div class='col-xs-6 col-sm-6 col-md-6 parYards'><h3>Par</h3><h3>"+par+"</h3></div><div class='col-xs-6 col-sm-6 col-md-6 parYards'><h3>Yards</h3><h3>"+yards+"</h3></div></div></div>");
+            $('#front9').append("<div class='col-sm-6 col-md-4 col-lg-3  card' id='hole"+i+"'><h2>"+i+"</h2><div class='row'><div class='col-xs-6 col-sm-6 col-md-6 parYards'><h3>Par</h3><h3>"+par+"</h3></div><div class='col-xs-6 col-sm-6 col-md-6 parYards'><h3>Yards</h3><h3>"+yards+"</h3></div></div></div>");
         }
     }
     function backNine(){
         for (var i = 10; i < 19; i++){
             var yards = selectedCourse.course.holes[i - 1].tee_boxes[teeSelection].yards;
             var par = (selectedCourse.course.holes[i - 1].tee_boxes[teeSelection].par);
-            $('#back9').append("<div class='col-sm-6 col-md-4 col-lg-3 card' id='hole"+i+"'><h2>"+i+"</h2><div class='row'><div class='col-xs-6 col-sm-6 col-md-6 parYards'><h3>Par</h3><h3>"+par+"</h3></div><div class='col-xs-6 col-sm-6 col-md-6 parYards'><h3>Yards</h3><h3>"+yards+"</h3></div></div></div>");
+            $('#back9').append("<div class='col-sm-6 col-md-4 col-lg-3  card' id='hole"+i+"'><h2>"+i+"</h2><div class='row'><div class='col-xs-6 col-sm-6 col-md-6 parYards'><h3>Par</h3><h3>"+par+"</h3></div><div class='col-xs-6 col-sm-6 col-md-6 parYards'><h3>Yards</h3><h3>"+yards+"</h3></div></div></div>");
         }
     }
 
@@ -460,29 +443,16 @@ function summaryInfo(){
         var back9 = 0;
 
         for (var i = 0; i < 9; i++) {
-
                 front9 += parseInt(player.score[i]);
-
         }
         for (var i = 9; i < 18; i++) {
                 back9 += parseInt(player.score[i]);
-
         }
 
         var all18 = front9 + back9;
         $("#summaryBody").append("<tr class='info'><td>"+name+"</td><td>"+front9+"</td><td>"+back9+"</td><td>"+all18+"</td></tr>");
-
-        // if(front9 + back9 == false) {
-        //     $("#summaryBody").append("<tr class='info'><td>"+name+"</td><td>0</td><td>0</td><td>0</td></tr>");
-        // } else {
-        //     $("#summaryBody").append("<tr class='info'><td>"+name+"</td><td>"+front9+"</td><td>"+back9+"</td><td>"+all18+"</td></tr>");
-        // }
-
-
     });
 
-    //add each player
-    //add each player score
 }
 
 
