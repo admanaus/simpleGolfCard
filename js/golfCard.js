@@ -6,23 +6,46 @@ var quantityPlayers = 1;
 var players = [];
 var playerCount = 1;
 var selectedCoursePlayerData;
+var currentGame = {};
+
+
 
 $('#nearbyCoursesButton').hide();
 $('#availableTeesButton').hide();
 $('#availableHolesButton').hide();
 $('#courseInfo').hide();
 $('#playerInfo').hide();
+function createSavedGamesMenu(){
+    //clear tee menu
+    $('#gamesDropdown').empty();
+    for (var i = 0; i <= 100000; i++) {
 
+        if (db.get(i)) {
+            currentGame = db.get(i);
+            var tempName = currentGame.course.course.name;
+            var tempPlayerNames = "";
+            currentGame.players.forEach(function (player) { tempPlayerNames = tempPlayerNames + player.name + " "; });
 
+            $('#gamesDropdown').append("<li><a class='dropdown-item' onclick='loadGame(" + i + ")' >" + tempName + " ("+tempPlayerNames+")</a></li>");
+        }
 
+    }
+}
+createSavedGamesMenu();
+function loadGame(gameID){
+    currentGame = db.get(gameID);
+    selectedCourse = currentGame.course;
+    teeSelection = currentGame.tee;
+    holesSelection = currentGame.holes;
+    showCourseInfo(selectedCourse);
+    generateCard();
+    addSavedPlayersToCards();
+    buildSummary();
+}
 //!!!!! Change this back!
-
 getNearbyCourses().then(createCoursesMenu);
-
 // getUserLocation().then(getNearbyCourses).then(createCoursesMenu);
 //!!!!!!!
-
-
 function getUserLocation(){
     return new Promise(executor);
     function executor(resolve, reject){
@@ -63,7 +86,6 @@ function getNearbyCourses(userPosition){
             if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200){
                 var data = JSON.parse(httpRequest.responseText);
                 nearbyCourses = data;
-                console.log(nearbyCourses);
                 resolve(nearbyCourses);
             }
         };
@@ -116,7 +138,6 @@ function getSelectedCourse(courseID){
     }
 }
 function createTeeMenu(selectedCourse){
-    console.log(selectedCourse);
     //clear tee menu
     $('#teesDropdown').empty();
     //populate tee menu
@@ -144,7 +165,6 @@ function createHoleMenu(selectedCourse){
     $('#holesDropdown').empty();
     //populate hole menu
     var holesQuantity = selectedCourse.course.holes.length;
-    console.log(holesQuantity);
     if(holesQuantity <= 9){
         $('#back9').hide();
         //chosenHole input must be 0, 1, or 2 -- 0 = 18 holes, 1 = front 9, 2 = back 9
@@ -166,15 +186,12 @@ function chosenHole(selection){
     // if(selection !== 0 || 1 || 2){selection = 0};
     holesSelection = selection; // pass value out to global variable
     if(selection == 0){
-        console.log("18 Holes");
         $('#holesDropdownMenuButton').empty();
         $('#holesDropdownMenuButton').append("18 Holes <span class='caret'></span>");
     } else if(selection == 1){
-        console.log("Front 9");
         $('#holesDropdownMenuButton').empty();
         $('#holesDropdownMenuButton').append("Front 9 <span class='caret'></span>");
     } else if(selection == 2){
-        console.log("Back 9");
         $('#holesDropdownMenuButton').empty();
         $('#holesDropdownMenuButton').append("Back 9 <span class='caret'></span>");
     }
@@ -203,29 +220,6 @@ function showCourseInfo(selectedCourse){
     });
 
     $('#courseInfo').show();
-    checkDBforPlayerData();
-}
-function checkDBforPlayerData(){
-    var name = selectedCourse.course.name;
-    if(db.get(name)){
-        selectedCoursePlayerData = db.get(name);
-
-        console.log(selectedCoursePlayerData);
-
-        quantityPlayers = selectedCoursePlayerData.players.length;
-        players = selectedCoursePlayerData.players;
-        console
-        $('#playersForm').empty();
-        players.forEach(function (playerObject, index) {
-            var playerNumber = index + 1;
-            var name = playerObject.name;
-            console.log(playerNumber);
-            console.log(name);
-            $('#playersForm').append("<label for='nameField'>Player "+playerNumber+"</label><a href='#' onclick='removePlayer("+playerNumber+")' class='close' data-dismiss='alert' aria-label='close' title='close'>×</a> <input type='name' class='form-control' id='"+playerNumber+"'  placeholder='Arnold Palmer'>");
-            $('#'+playerNumber).defaultValue = name;
-        });
-
-    } else { selectedCoursePlayerData = new Course }
 }
 function generateCourseMap(latitude, longitude, HTMLID){
     var map = new google.maps.Map(document.getElementById(HTMLID), {
@@ -248,24 +242,25 @@ function generateHoleMap(hole) {
         var greenLocation = selectedCourse.course.holes[hole - 1].green_location;
         var holeCenter = {lat:((teeLocation.lat + greenLocation.lat) / 2) , lng:((teeLocation.lng + greenLocation.lng) /2)};
         var HTMLID = "map" + hole;
-
-        var map = new google.maps.Map(document.getElementById(HTMLID), {
-            zoom: 16,
-            center: {lat: holeCenter.lat, lng: holeCenter.lng},
-            mapTypeId: 'satellite'
-        });
-        var tee = new google.maps.Marker({
-            position: {lat: teeLocation.lat, lng: teeLocation.lng},
-            map: map,
-            //label: "tee",
-            icon: {url: "images/fixedTee.png"}
-        });
-        var green = new google.maps.Marker({
-            position: {lat: greenLocation.lat, lng: greenLocation.lng},
-            map: map,
-            //label: "green"
-            icon: {url: "images/fixedFlag.png"}
-        });
+        if ( $("#"+HTMLID) ){
+            var map = new google.maps.Map(document.getElementById(HTMLID), {
+                zoom: 16,
+                center: {lat: holeCenter.lat, lng: holeCenter.lng},
+                mapTypeId: 'satellite'
+            });
+            var tee = new google.maps.Marker({
+                position: {lat: teeLocation.lat, lng: teeLocation.lng},
+                map: map,
+                //label: "tee",
+                icon: {url: "images/fixedTee.png"}
+            });
+            var green = new google.maps.Marker({
+                position: {lat: greenLocation.lat, lng: greenLocation.lng},
+                map: map,
+                //label: "green"
+                icon: {url: "images/fixedFlag.png"}
+            });
+        }
         resolve();
     }
 }
@@ -294,50 +289,53 @@ function addPlayer(){
 }
 function savePlayerNames(){
     players = [];
+
+
     for (var i = 1; i <= quantityPlayers + 15; i++) {
         var name = $('#'+i).val();
-        if (name){
-            if (players.includes(name)){
-                $('#playersForm').append('<div class="alert alert-warning fade in alert-dismissable" id="playerAlert"><a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a><strong>Please remove duplicate names</strong></div>');
-                players = [];
-                setTimeout(function (){ $("#playerAlert").remove() }, 2500);
-            } else { players.push(name) }
-        }
+        if (name){ players.push(name) }
     }
-    generateCard();
-    addPlayersToCards();
+    if(players.length > 0){
+        generateCard();
+        addPlayersToCards();
+        generateCurrentGame();
+        $("#playerInfo").hide();
+    }
 
-    $("#playerInfo").hide();
 }
-
-function Course(courseID){
-    this.courseID = courseID;
+function Game(gameID) {
+    this.gameID = gameID;
+    this.course = {};
     this.players = [];
+    this.tee = teeSelection;
+    this.holes = holesSelection;
 }
 function Player(name) {
     this.name = name;
-    this.score = [];
+    this.score = [0];
 }
-
-
-function saveScores(){
-    var courseName = selectedCourse.course.name;
-    var ID = selectedCourse.course.id;
-
+function generateCurrentGame(){
+    var gameID = Math.floor(Math.random() * 100000);
+    currentGame = new Game(gameID);
+    currentGame.course = selectedCourse;
     players.forEach(function (name) {
-        var player = new Player(name);
-        console.log(player);
-        console.log(players);
-        course.players.push(player);
+        currentGame.players.push( new Player(name) );
+    });
+}
+function saveScores(){
+    currentGame.tee = teeSelection;
+    currentGame.holes = holesSelection;
+    currentGame.players.forEach(function (player) {
+        player.score = [];
         for (var i = 1; i < 19; i++) {
-            var score = $("#"+name+"Hole"+i+"score").val();
+            var score = $("#"+player.name+"Hole"+i+"score").val();
             player.score.push(score);
         }
     });
-
-    db.save(courseName, course);
-    console.log(course);
+    db.save(currentGame.gameID , currentGame);
+    buildSummary();
 }
+
 function addPlayersToCards(){
     if (players){
         for (var i = 1; i < 19; i++) {
@@ -345,9 +343,21 @@ function addPlayersToCards(){
         }
         for (var i = 1; i < 19; i++) {
             players.forEach(function (playerName) {
-                $("#scoreNamesHole" + i).append("<div class='col-xs-6 col-sm-6 col-md-6'><label for='"+playerName+"Hole"+i+"score'>"+playerName+"</label><input oninput='saveScores()' class='form-control "+playerName+"Score ' type='number' value='1' id='"+playerName+"Hole"+i+"score'></div>");
+                $("#scoreNamesHole" + i).append("<div class='col-xs-6 col-sm-6 col-md-6'><label for='"+playerName+"Hole"+i+"score'>"+playerName+"</label><input oninput='saveScores()' class='form-control "+playerName+"Score ' type='number' value='0' id='"+playerName+"Hole"+i+"score'></div>");
             })
         }
+    }
+}
+function addSavedPlayersToCards() {
+    for (var i = 1; i < 19; i++) {
+        $("#hole"+i).append(" <div class='row'> <div id='scoreNamesHole"+i+"'> </div> </div>");
+    }
+    for (var i = 1; i < 19; i++) {
+        currentGame.players.forEach(function (player, index) {
+            var playerName = player.name;
+            var score = player.score[i-1];
+            $("#scoreNamesHole" + i).append("<div class='col-xs-6 col-sm-6 col-md-6'><label for='"+playerName+"Hole"+i+"score'>"+playerName+"</label><input oninput='saveScores()' class='form-control "+playerName+"Score ' type='number' value='"+score+"' id='"+playerName+"Hole"+i+"score'></div>");
+        })
     }
 }
 function removePlayer(player){
@@ -361,11 +371,26 @@ function removePlayer(player){
 function generateCard(){
     cardHTMLSkeleton();
     $('#scoreCard').show();
-    for (var i = 1; i < 19; i++) {
-        var HTMLID = "map" + i;
-        $('#hole' + i).append("<div class='map' id='"+ HTMLID +"' ></div>");
-        generateHoleMap(i);
+    if (holesSelection == 1) {
+        for (var i = 1; i <= 9; i++) {
+            var HTMLID = "map" + i;
+            $('#hole' + i).append("<div class='map' id='"+ HTMLID +"' ></div>");
+            generateHoleMap(i);
+        }
+    } else if (holesSelection == 2) {
+        for (var i = 10; i <= 18; i++) {
+            var HTMLID = "map" + i;
+            $('#hole' + i).append("<div class='map' id='"+ HTMLID +"' ></div>");
+            generateHoleMap(i);
+        }
+    } else {
+        for (var i = 1; i <= 18; i++) {
+            var HTMLID = "map" + i;
+            $('#hole' + i).append("<div class='map' id='"+ HTMLID +"' ></div>");
+            generateHoleMap(i);
+        }
     }
+
 
 }
 
@@ -388,30 +413,81 @@ function cardHTMLSkeleton(){
         for (var i = 1; i < 10; i++) {
             var yards = selectedCourse.course.holes[i - 1].tee_boxes[teeSelection].yards;
             var par = (selectedCourse.course.holes[i - 1].tee_boxes[teeSelection].par);
-            $('#front9').append("<div class='col-sm-6 col-md-4 card' id='hole"+i+"'><h2>"+i+"</h2><div class='row'><div class='col-xs-6 col-sm-6 col-md-6 parYards'><h3>Par</h3><h3>"+par+"</h3></div><div class='col-xs-6 col-sm-6 col-md-6 parYards'><h3>Yards</h3><h3>"+yards+"</h3></div></div></div>");
+            $('#front9').append("<div class='col-sm-6 col-md-4 col-lg-3 card' id='hole"+i+"'><h2>"+i+"</h2><div class='row'><div class='col-xs-6 col-sm-6 col-md-6 parYards'><h3>Par</h3><h3>"+par+"</h3></div><div class='col-xs-6 col-sm-6 col-md-6 parYards'><h3>Yards</h3><h3>"+yards+"</h3></div></div></div>");
         }
     }
     function backNine(){
         for (var i = 10; i < 19; i++){
             var yards = selectedCourse.course.holes[i - 1].tee_boxes[teeSelection].yards;
             var par = (selectedCourse.course.holes[i - 1].tee_boxes[teeSelection].par);
-            $('#back9').append("<div class='col-sm-6 col-md-4' id='hole"+i+"'><h2>"+i+"</h2><div class='row'><div class='col-xs-6 col-sm-6 col-md-6 parYards'><h3>Par</h3><h3>"+par+"</h3></div><div class='col-xs-6 col-sm-6 col-md-6 parYards'><h3>Yards</h3><h3>"+yards+"</h3></div></div></div>");
+            $('#back9').append("<div class='col-sm-6 col-md-4 col-lg-3 card' id='hole"+i+"'><h2>"+i+"</h2><div class='row'><div class='col-xs-6 col-sm-6 col-md-6 parYards'><h3>Par</h3><h3>"+par+"</h3></div><div class='col-xs-6 col-sm-6 col-md-6 parYards'><h3>Yards</h3><h3>"+yards+"</h3></div></div></div>");
         }
     }
 
 }
+function buildSummary() {
+    summaryHTMLSkeleton();
+    summaryInfo();
+}
+function summaryHTMLSkeleton(){
+    $("#summary").empty();
+    $("#summary").append("<div class='row'><table class='table'><thead><tr class = 'success'><th id = 'tableTee'> </th><th>Front 9</th><th>Back 9</th><th>Total</th></tr> </thead> <tbody id = 'summaryBody'> </tbody></table></div>");
+}
+function summaryInfo(){
+    //add Tee name
+    var tee = currentGame.tee;
+    var teeName = currentGame.course.course.holes[0].tee_boxes[tee].tee_type;
+    var front9Par = 0;
+    var back9Par = 0;
+    var all18Par = 0;
+    $("#tableTee").append("Tee: " + teeName);
 
-function showHoleMap(hole) {
-    var ID = "#map" + hole;
+    // $("#summaryBody").append("<tr id='summaryPar'></tr>"); //add row for par
 
-    $(ID).show();
-    generateHoleMap(hole);
+    for (var i = 0; i < 9; i++) { //Front 9 Par
+        front9Par += currentGame.course.course.holes[i].tee_boxes[0].par;
+    }
+    for (var i = 9; i < 18; i++) { //Back 9 Par
+        back9Par += currentGame.course.course.holes[i].tee_boxes[0].par;
+    }
+    all18Par = front9Par + back9Par;
+
+    $("#summaryBody").append("<tr class='warning'><td>Par</td><td>"+front9Par+"</td><td>"+back9Par+"</td><td>"+all18Par+"</td></tr>")
+    //add each player
+    var players = currentGame.players;
+
+    players.forEach(function (player, index) {
+        var name = player.name;
+        var front9 = 0;
+        var back9 = 0;
+
+        for (var i = 0; i < 9; i++) {
+
+                front9 += parseInt(player.score[i]);
+
+        }
+        for (var i = 9; i < 18; i++) {
+                back9 += parseInt(player.score[i]);
+
+        }
+
+        var all18 = front9 + back9;
+        $("#summaryBody").append("<tr class='info'><td>"+name+"</td><td>"+front9+"</td><td>"+back9+"</td><td>"+all18+"</td></tr>");
+
+        // if(front9 + back9 == false) {
+        //     $("#summaryBody").append("<tr class='info'><td>"+name+"</td><td>0</td><td>0</td><td>0</td></tr>");
+        // } else {
+        //     $("#summaryBody").append("<tr class='info'><td>"+name+"</td><td>"+front9+"</td><td>"+back9+"</td><td>"+all18+"</td></tr>");
+        // }
+
+
+    });
+
+    //add each player
+    //add each player score
 }
 
-function updateScore(currentHole, player, score){
-    //update players array with score
-    //push players array to local data
-}
+
 
 
 

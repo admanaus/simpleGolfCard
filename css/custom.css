@@ -65,24 +65,28 @@ hr {
     font-size: 20px;
 }
 .card{
-    margin-bottom: 8px;
+    margin-bottom: 2px;
     font-family: 'Alegreya', serif;
     font-size: 200%;
-    border-width: 3px;
+    border-width: 2px;
     border-style: solid;
-    margin-top: 20px;
+    margin: 2px;
     font-size: 15px;
-    padding: 25px;
+    padding: 20px;
     border-radius: 25px;
     border-color: #4CAF50
 }
 .parYards {
-    border-width: 3px;
+    border-width: 2px;
     border-style: solid;
     border-radius: 50px;
     border-color: #4CAF50;
+    padding-right: 10px;
+    padding-left: 10px;
 
 }
+
+#summary{padding-top: 15px;}
 
 .topMenu{
     /*padding: 10px 10px;*/

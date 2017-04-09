@@ -28,13 +28,14 @@
                 <!--Nearby Courses Button-->
                 <li class="dropdown topMenu" id="nearbyCoursesButton">
                     <a id="courseDropdownMenuButton" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Select Nearby Course <span class="caret"></span>
+                        Select Nearby Course (New Game)<span class="caret"></span>
                     </a>
                     <div class="dropdown-menu" id="coursesDropdown" aria-labelledby="dropdownMenuButton">
                         <!--Nearby Courses will go here-->
                     </div>
                 </li>
             </li>
+
             <!--Available Tees drop-down button-->
             <li class="active">
                 <li class="dropdown topMenu" id="availableTeesButton" >
@@ -55,10 +56,22 @@
                     </div>
                 </li>
             </li>
+            <!--Saved Games-->
+            <li class="active">
+            <li class="dropdown topMenu" id="savedGames" >
+                <a id="savedGamesDropdownMenuButton" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Load Saved Game <span class="caret"></span>
+                </a>
+                <div class="dropdown-menu" id="gamesDropdown" aria-labelledby="dropdownMenuButton">
+
+                    <!--Available games will go here-->
+                </div>
+            </li>
+            </li>
             <ul class=" active nav navbar-nav navbar-right">
                 <li >
                     <a>
-                        <input type="checkbox" checked data-toggle="toggle" data-style="slow"  data-on="Maps On" data-off="Maps Off" onchange="hideMaps()">
+                        <input type="checkbox" checked data-toggle="toggle" data-style="slow"  data-on="Maps" data-off="Maps" onchange="hideMaps()">
                     </a>
                 </li>
             </ul>
@@ -82,7 +95,10 @@
 </div>
 <!--End Course Info and Weather-->
 
+<!--Begin Game Summary-->
+<div class="container" id="summary">
 
+</div>
 
 <!--Begin Player Info-->
 <div class="container" id="playerInfo">
@@ -93,7 +109,7 @@
                     <label for="1">Player 1</label><a href="#" onclick="removePlayer(1)" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
                     <input type="name" class="form-control" id="1" placeholder="Arnold Palmer">
                 </div>
-                <small id="playerHelp" class="form-text text-muted">Each name must be different.</small>
+                <small id="playerHelp" class="form-text text-muted">Duplicate names will combine.</small>
             </form>
         </div>
         <div class="col-sm-8" id="playerButtons">
@@ -121,8 +137,9 @@
         type="text/javascript">
 </script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
-<script type="text/javascript" src="js/golfCard.js"></script>
 <script type="text/javascript" src="js/db.js"></script>
+<script type="text/javascript" src="js/golfCard.js"></script>
+
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 </body>
 </html>
