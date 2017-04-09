@@ -37,7 +37,7 @@ hr {
 }
 
 .map {
-    height: 370px;
+    height: 360px;
     margin-top: 15px;
 }
 .card h3 {
@@ -45,6 +45,10 @@ hr {
 }
 .card h2{
     margin-top: 10px;
+}
+.parYards h3 {
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .small-icon {
