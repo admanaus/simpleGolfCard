@@ -285,10 +285,9 @@ function savePlayerNames(){
 
     for (var i = 1; i <= quantityPlayers + 15; i++) {
         var name = $('#'+i).val();
-
         players.forEach(function (item, index) {
             if (item == name){
-                players.splice((index - 1), 1);
+                players.splice((index), 1);
             }
         });
         if (name){ players.push(name) }
