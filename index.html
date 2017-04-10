@@ -104,10 +104,10 @@
 <div class="container" id="playerInfo">
     <div class="row" id="players">
         <div class="col-sm-8">
-            <form>
+            <form onsubmit="addPlayer(); return false">
                 <div class="form-group" id="playersForm">
                     <label for="1">Player 1</label><a href="#" onclick="removePlayer(1)" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
-                    <input type="name" class="form-control" id="1" placeholder="Arnold Palmer">
+                    <input type="name" class="form-control" id="1" placeholder="Arnold Palmer" >
                 </div>
                 <small id="playerHelp" class="form-text text-muted">Duplicate names will combine.</small>
             </form>
