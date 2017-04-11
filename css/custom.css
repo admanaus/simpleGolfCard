@@ -102,3 +102,14 @@ hr {
     float: none;
     margin: 0 auto;
 }
+@keyframes teeHoleHighlight {
+    from {background-color: #4CAF50;}
+    to {background-color: #F8F8F8;}
+
+}
+
+.highlight {
+    animation-name: teeHoleHighlight;
+    animation-duration: 1.2s;
+    background-color: inherit;
+}

@@ -104,10 +104,10 @@
 <div class="container" id="playerInfo">
     <div class="row" id="players">
         <div class="col-sm-8">
-            <form onsubmit="addPlayer(); return false">
+            <form onsubmit="return false;">
                 <div class="form-group" id="playersForm">
                     <label for="1">Player 1</label><a href="#" onclick="removePlayer(1)" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
-                    <input type="name" class="form-control" id="1" placeholder="Arnold Palmer" >
+                    <form onsubmit="addPlayer(); return false;"><input type="name" class="form-control"  id="1" placeholder="Arnold Palmer" ></form>
                 </div>
                 <small id="playerHelp" class="form-text text-muted">Duplicate names will combine.</small>
             </form>
@@ -128,7 +128,7 @@
 </div>
 <!--End Score Card-->
 
-<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
@@ -136,6 +136,7 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfZrgZnLbylDkqBfdx35fy5y7Odl8cIUY"
         type="text/javascript">
 </script>
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/db.js"></script>
 <script type="text/javascript" src="js/golfCard.js"></script>

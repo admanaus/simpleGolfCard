@@ -131,6 +131,7 @@ function getSelectedCourse(courseID){
     }
 }
 function createTeeMenu(selectedCourse){
+    $( "#availableTeesButton" ).addClass( "highlight" );
     //clear tee menu
     $('#teesDropdown').empty();
     //populate tee menu
@@ -151,6 +152,7 @@ function chosenTee(teeIndex){
     //populate yardage to card
 }
 function createHoleMenu(selectedCourse){
+    $( "#availableHolesButton" ).addClass( "highlight" );
     $('#availableHolesButton').show();
     $('#holesDropdownMenuButton').empty();
     $('#holesDropdownMenuButton').append("Select Holes <span class='caret'></span>");
@@ -460,7 +462,6 @@ function insertMapsToggle(){
     $("#mapsToggle").append("<li><a><input type='checkbox' checked data-toggle='toggle' data-style='slow'  data-on='Maps' data-off='Maps' onchange='hideMaps()'></a></li>");
     // Toggle JS needs to be called after insertion for correct display...
 }
-
 
 
 
