@@ -284,7 +284,12 @@ function savePlayerNames(){
     players = [];
 
     for (var i = 1; i <= quantityPlayers + 15; i++) {
-        var name = $('#'+i).val();
+        if($('#'+i).val()){
+            var name = $('#'+i).val();
+            name = name.replace(/[^a-z0-9]/gi,'');
+        }
+
+        // var name = $('#'+i).val();
         players.forEach(function (item, index) {
             if (item == name){
                 players.splice((index), 1);
@@ -458,10 +463,7 @@ function summaryInfo(){
     });
 
 }
-function insertMapsToggle(){
-    $("#mapsToggle").append("<li><a><input type='checkbox' checked data-toggle='toggle' data-style='slow'  data-on='Maps' data-off='Maps' onchange='hideMaps()'></a></li>");
-    // Toggle JS needs to be called after insertion for correct display...
-}
+
 
 
 
