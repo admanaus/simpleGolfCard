@@ -364,19 +364,30 @@ function generateCard(){
     if (holesSelection == 1) {
         for (var i = 1; i <= 9; i++) {
             var HTMLID = "map" + i;
+            var handicap = selectedCourse.course.holes[i - 1].tee_boxes[teeSelection].hcp;
+            console.log(handicap);
             $('#hole' + i).append("<div class='map' id='"+ HTMLID +"' ></div>");
+            $('#hole' + i).append("<div class='hcp parYards'>Handicap: "+handicap+"</div>");
             generateHoleMap(i);
         }
     } else if (holesSelection == 2) {
         for (var i = 10; i <= 18; i++) {
             var HTMLID = "map" + i;
+            var handicap = selectedCourse.course.holes[i - 1].tee_boxes[teeSelection].hcp;
+            console.log(handicap);
             $('#hole' + i).append("<div class='map' id='"+ HTMLID +"' ></div>");
+
+            $('#hole' + i).append("<div class='hcp parYards'>Handicap: "+handicap+"</div>");
             generateHoleMap(i);
         }
     } else {
         for (var i = 1; i <= 18; i++) {
             var HTMLID = "map" + i;
+            var handicap = selectedCourse.course.holes[i - 1].tee_boxes[teeSelection].hcp;
+            console.log(handicap);
             $('#hole' + i).append("<div class='map' id='"+ HTMLID +"' ></div>");
+
+            $('#hole' + i).append("<div class='hcp parYards'>Handicap: "+handicap+"</div>");
             generateHoleMap(i);
         }
     }
